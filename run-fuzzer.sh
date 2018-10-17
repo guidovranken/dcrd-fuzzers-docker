@@ -11,4 +11,6 @@ if [ ! -d $corpus_directory ]; then
     exit
 fi
 shift
-docker run -v $corpus_directory:/root/work/corpus -i -t dcrd-fuzzers /root/work/fuzzer-$fuzzer_name -custom_guided=1 -use_value_profile=1 /root/work/corpus "$@"
+
+cmd="cd /root/work/corpus; /root/work/fuzzer-$fuzzer_name -custom_guided=1 -use_value_profile=1 . $@"
+docker run -v $corpus_directory:/root/work/corpus -i -t dcrd-fuzzers /bin/sh -c "$cmd"
